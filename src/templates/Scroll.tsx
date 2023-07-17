@@ -18,9 +18,13 @@ const state = {
 
 const { damp } = THREE.MathUtils
 
-export default function Scroll({ children }) {
-  const content = useRef(null)
-  const wrapper = useRef(null)
+type Props = {
+  children: React.ReactNode
+}
+
+export default function Scroll({ children }: Props) {
+  const content = useRef(null!)
+  const wrapper = useRef(null!)
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -56,13 +60,15 @@ export default function Scroll({ children }) {
         width: '100%',
         height: '100%',
         top: 0,
-      }}>
+      }}
+    >
       <div
         ref={content}
         style={{
           position: 'relative',
           minHeight: '200vh',
-        }}>
+        }}
+      >
         {children}
       </div>
     </div>

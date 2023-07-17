@@ -1,14 +1,21 @@
 import { Layout } from '@/components/dom/Layout'
 import './global.css'
+import { Open_Sans } from 'next/font/google'
+
+const openSans = Open_Sans({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Next.js + Three.js',
-  description: 'A minimal starter for Nextjs + React-three-fiber and Threejs.',
+  title: 'Double me',
+  description: 'web 3d poc project',
 }
 
-export default function RootLayout({ children }) {
+type Props = {
+  children: React.ReactNode
+}
+
+export default function RootLayout({ children }: Props) {
   return (
-    <html lang='en' className='antialiased'>
+    <html lang='en' className={`antialiased ${openSans.className}`}>
       {/*
         <head /> will contain the components returned by the nearest parent
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
