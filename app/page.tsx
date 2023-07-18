@@ -26,20 +26,5 @@ import Link from 'next/link'
 // const Common = dynamic(() => import('@/components/canvas/Common').then((mod) => mod.Common), { ssr: false })
 
 export default function Page() {
-  return (
-    <section>
-      <ul>
-        <li>
-          <Link href={`/box`}>
-            <p>Box</p>
-          </Link>
-        </li>
-        <li>
-          <Link href={`/gltf`}>
-            <p>gltf</p>
-          </Link>
-        </li>
-      </ul>
-    </section>
-  )
+  return <section>Main</section>
 }
