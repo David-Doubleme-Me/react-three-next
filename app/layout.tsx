@@ -1,4 +1,3 @@
-import { Layout } from '@/components/dom/Layout'
 import './global.css'
 import { Open_Sans } from 'next/font/google'
 
@@ -16,14 +15,8 @@ type Props = {
 export default function RootLayout({ children }: Props) {
   return (
     <html lang='en' className={`antialiased ${openSans.className}`}>
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
-      <head />
       <body>
-        {/* To avoid FOUT with styled-components wrap Layout with StyledComponentsRegistry https://beta.nextjs.org/docs/styling/css-in-js#styled-components */}
-        <Layout>{children}</Layout>
+        <main className='w-full h-screen'>{children}</main>
       </body>
     </html>
   )
