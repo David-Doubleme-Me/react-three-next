@@ -13,7 +13,6 @@ import {
   CubeCamera,
 } from '@react-three/drei'
 import { useRef } from 'react'
-import Box from '@/components/practice/Box'
 
 export function Duck() {
   const { scene } = useGLTF('/duck.glb')
@@ -25,11 +24,12 @@ export function Dog() {
 }
 
 // track, index, frames, children
-export default function GltfPage() {
+export default function CameraPage() {
   const containerRef = useRef(null!)
   const ref1 = useRef(null!)
   const ref2 = useRef(null!)
   const ref3 = useRef(null!)
+
   return (
     <section ref={containerRef} className='flex w-full h-full'>
       <div ref={ref1} className='view1ref w-[500px] h-[500px]' />
