@@ -51,11 +51,15 @@ export default function GLTFScene() {
       <color attach='background' args={[196, 196, 196]} />
       <OrbitControls />
       <ambientLight />
-      <Suspense fallback={null}>
+      {/* <Suspense fallback={null}>
         <Bounds fit clip margin={1}>
           <Tyrannosaurs />
         </Bounds>
-      </Suspense>
+      </Suspense> */}
+
+      <Bounds fit clip margin={1}>
+        <Tyrannosaurs />
+      </Bounds>
     </Canvas>
   )
 }

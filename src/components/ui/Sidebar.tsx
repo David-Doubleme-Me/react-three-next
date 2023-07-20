@@ -4,6 +4,7 @@ import { RiHome5Fill } from 'react-icons/ri'
 import { AiTwotoneVideoCamera } from 'react-icons/ai'
 import { BsBox } from 'react-icons/bs'
 import { GiBearFace } from 'react-icons/gi'
+import { TbResize } from 'react-icons/tb'
 
 const LINK = [
   {
@@ -25,6 +26,11 @@ const LINK = [
     name: 'GLTF',
     pathname: '/gltf',
     icon: GiBearFace,
+  },
+  {
+    name: 'Resize',
+    pathname: '/resize',
+    icon: TbResize,
   },
 ]
 
