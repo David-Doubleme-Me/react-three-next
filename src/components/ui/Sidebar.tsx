@@ -5,6 +5,7 @@ import { AiTwotoneVideoCamera } from 'react-icons/ai'
 import { BsBox } from 'react-icons/bs'
 import { GiBearFace } from 'react-icons/gi'
 import { TbResize } from 'react-icons/tb'
+import { SiLevelsdotfyi } from 'react-icons/si'
 
 const LINK = [
   {
@@ -31,6 +32,11 @@ const LINK = [
     name: 'Resize',
     pathname: '/resize',
     icon: TbResize,
+  },
+  {
+    name: 'LOD',
+    pathname: '/lod',
+    icon: SiLevelsdotfyi,
   },
 ]
 

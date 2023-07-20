@@ -4,11 +4,6 @@ import { OrbitControls, useGLTF, Resize, Center, Stage, Gltf } from '@react-thre
 import { Canvas, useThree } from '@react-three/fiber'
 import { useControls } from 'leva'
 import { Box3, BoxHelper, Color, Vector3 } from 'three'
-import Box from '../practice/Box'
-
-type Props = {
-  onClick: () => void
-}
 
 const Model1 = () => {
   const result = useGLTF('/model/test/1.glb')
@@ -17,7 +12,7 @@ const Model1 = () => {
 
 const Model2 = () => {
   const { scene: object } = useGLTF('/model/test/2.glb')
-
+  const {} = useThree()
   // key
   object.updateMatrixWorld()
 
@@ -85,12 +80,7 @@ export default function ResizeScene() {
       <Stage intensity={0.5} shadows='contact' environment='city'>
         <Center top={top} bottom={bottom} right={right} left={left} front={front} back={back}>
           <Resize height scale={scale}>
-            {/* <Model1 /> */}
-            {/* {Model2 && <Model2 />} */}
-            <Model3 />
-            {/* <Tyrannosaurs /> */}
-            {/* <Box /> */}
-            {/* <Gltf castShadow receiveShadow src='/model/tyrannosaurs/scene.gltf' /> */}
+            <Model2 />
           </Resize>
         </Center>
       </Stage>
