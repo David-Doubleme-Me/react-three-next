@@ -1,40 +1,66 @@
 'use client'
 
-import { OrbitControls, useGLTF, Detailed } from '@react-three/drei'
+import { OrbitControls, useGLTF, Detailed, useAnimations } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-
-import { Color, Mesh } from 'three'
-
-const Model1 = () => {
-  const result = useGLTF('/model/dragon/cute_dragon_low.glb')
-  console.log(result)
-  result.scene.traverse((item) => {
-    if (item instanceof Mesh) {
-      // 기하 정보를 얻습니다.
-      const geometry = item.geometry
-      console.log(geometry)
-    }
-  })
-  result.scene.updateMatrixWorld()
-  return <primitive object={result.scene} />
+import { Suspense } from 'react'
+import { Bone, BufferGeometry, Color, Group, Material, Mesh, NormalBufferAttributes, Object3D } from 'three'
+import { GLTF } from 'three-stdlib'
+import { metadata } from '../../../app/layout'
+// import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+type ModelProps = {
+  url: string
 }
 
-const Model2 = () => {
-  const { scene } = useGLTF('/model/dragon/cute_dragon_high.glb')
+type Nodes = {
+  [key: string]: Object3D | Bone | Group | Mesh
+}
+
+const Model = ({ url }: ModelProps) => {
+  const result = useGLTF(url) as GLTF & { nodes: any }
+  console.log(result)
+  const { nodes, animations, scene } = result
+  console.log(nodes)
+
+  const { mixer, names, actions, clips } = useAnimations(animations)
+  // console.log(mixer)
+  // console.log(names)
+  // console.log(actions)
+  // console.log(clips)
+
+  actions[names[0]]?.play()
+
   scene.updateMatrixWorld()
+  scene.userData = { url }
   return <primitive object={scene} />
 }
 
-export default function ResizeScene() {
-  const props = {
-    position: [0, 0, 0],
-  }
+const DetailedModel = (props: any) => {
+  const [lowModel, highModel] = useGLTF(['/model/dragon/cute_dragon_low.glb', '/model/dragon/cute_dragon_high.glb'])
+  lowModel.scene.updateMatrixWorld()
+  highModel.scene.updateMatrixWorld()
+
+  return (
+    <Detailed distances={[0, 10]} {...props}>
+      <primitive object={lowModel.scene} />
+      <primitive object={highModel.scene} />
+    </Detailed>
+  )
+}
+
+export default function LODScene() {
   return (
     <Canvas>
       <color attach='background' args={[196, 196, 196]} />
       <ambientLight />
 
-      <Model1 />
+      <Suspense fallback={<Model url='/model/robot/low.glb' />}>
+        <Model url='/model/robot/high.glb' />
+      </Suspense>
+
+      <DetailedModel position={[5, 0, 0]} />
+
       <axesHelper
         scale={2}
         position={[0, 0, 0]}
