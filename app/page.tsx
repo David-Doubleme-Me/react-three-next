@@ -32,7 +32,7 @@ export default function Page() {
     <section className='w-full'>
       <div className='text-white'>태그나오는 영역</div>
       {/* 리스트 나오는 영역 */}
-      <ul className='grid w-full lg:grid-cols-4 gap-x-4 gap-y-6 md:grid-cols-2'>
+      <ul className='grid grid-cols-4 lg:gird-cols-5'>
         {ImageCardArray.map((index) => (
           <li key={index}>
             <ImageCard />
