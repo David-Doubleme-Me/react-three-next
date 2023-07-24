@@ -1,7 +1,7 @@
 'use client'
 
 import { OrbitControls, useGLTF, Detailed } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useThree } from '@react-three/fiber'
 import { Suspense } from 'react'
 import { Bone, Color, Group, Mesh, Object3D } from 'three'
 import { GLTF } from 'three-stdlib'
@@ -17,6 +17,7 @@ type Nodes = {
 const Model = ({ url }: ModelProps) => {
   const { scene } = useGLTF(url) as GLTF & { nodes: any }
   scene.updateMatrixWorld()
+
   scene.userData = { url }
   return <primitive object={scene} />
 }
@@ -25,6 +26,13 @@ const DetailedModel = (props: any) => {
   const [lowModel, highModel] = useGLTF(['/model/dragon/cute_dragon_low.glb', '/model/dragon/cute_dragon_high.glb'])
   lowModel.scene.updateMatrixWorld()
   highModel.scene.updateMatrixWorld()
+
+  const { gl } = useThree()
+  const canvas = gl.domElement
+  canvas.addEventListener('webglcontextlost', function (event) {
+    event.preventDefault()
+    console.log('webglcontextlost!')
+  })
 
   return (
     <Detailed distances={[0, 10]} {...props}>
@@ -39,10 +47,6 @@ export default function LODScene() {
     <Canvas>
       <color attach='background' args={[196, 196, 196]} />
       <ambientLight />
-
-      <Suspense fallback={<Model url='/model/robot/low.glb' />}>
-        <Model url='/model/robot/high.glb' />
-      </Suspense>
 
       <DetailedModel position={[5, 0, 0]} />
 

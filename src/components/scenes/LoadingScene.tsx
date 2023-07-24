@@ -2,9 +2,11 @@
 
 import { OrbitControls, useGLTF, Stage, useAnimations, Preload } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Color } from 'three'
 import { useControls } from 'leva'
+import ProgressLoading from '../loading/ProgressLoading'
+import FullLoading from '../loading/FullLoading'
 
 const Robot = () => {
   const { scene, animations } = useGLTF('/model/robot/gun-bot.glb')
@@ -33,15 +35,17 @@ const Robot = () => {
   return <primitive object={scene} />
 }
 
-export default function AnimationScene() {
+export default function LoadingScene() {
   return (
     <Canvas>
       <color attach='background' args={[196, 196, 196]} />
       <ambientLight />
 
-      <Stage intensity={0.5} shadows='contact' environment='city'>
-        <Robot />
-      </Stage>
+      <Suspense fallback={<ProgressLoading />}>
+        <Stage intensity={0.5} shadows='contact' environment='city'>
+          <Robot />
+        </Stage>
+      </Suspense>
 
       <axesHelper
         scale={2}
