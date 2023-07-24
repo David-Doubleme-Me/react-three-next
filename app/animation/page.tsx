@@ -1,5 +1,7 @@
 import FullLoading from '@/components/loading/FullLoading'
+// import AnimationScene from '@/components/scenes/AnimationScene'
 import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
 
 const AnimationScene = dynamic(() => import('@/components/scenes/AnimationScene').then((component) => component), {
   ssr: false,
@@ -9,7 +11,9 @@ const AnimationScene = dynamic(() => import('@/components/scenes/AnimationScene'
 export default function AnimationPage() {
   return (
     <div className='relative w-full h-full'>
-      <AnimationScene />
+      <Suspense fallback={null}>
+        <AnimationScene />
+      </Suspense>
     </div>
   )
 }
