@@ -1,14 +1,11 @@
 'use client'
 
-import { OrbitControls, useGLTF, Detailed, useAnimations } from '@react-three/drei'
+import { OrbitControls, useGLTF, Detailed } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { Suspense } from 'react'
-import { Bone, BufferGeometry, Color, Group, Material, Mesh, NormalBufferAttributes, Object3D } from 'three'
+import { Bone, Color, Group, Mesh, Object3D } from 'three'
 import { GLTF } from 'three-stdlib'
-import { metadata } from '../../../app/layout'
-// import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
-import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+
 type ModelProps = {
   url: string
 }
@@ -18,19 +15,7 @@ type Nodes = {
 }
 
 const Model = ({ url }: ModelProps) => {
-  const result = useGLTF(url) as GLTF & { nodes: any }
-  console.log(result)
-  const { nodes, animations, scene } = result
-  console.log(nodes)
-
-  const { mixer, names, actions, clips } = useAnimations(animations)
-  // console.log(mixer)
-  // console.log(names)
-  // console.log(actions)
-  // console.log(clips)
-
-  actions[names[0]]?.play()
-
+  const { scene } = useGLTF(url) as GLTF & { nodes: any }
   scene.updateMatrixWorld()
   scene.userData = { url }
   return <primitive object={scene} />

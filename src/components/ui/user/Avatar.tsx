@@ -6,8 +6,12 @@ type Props = {
 
 export default function Avatar({ image }: Props) {
   return (
-    <section className='object-cover w-6 h-6 rounded-full'>
-      {image ? <Image src={image} height={24} width={24} alt='user image' /> : <FaUserAlt className='w-6 h-6' />}
+    <section className='flex items-center justify-center object-cover border rounded-full box-sizing w-9 h-9 border-neutral-100'>
+      {image ? (
+        <Image src={image} height={36} width={36} alt='user image' />
+      ) : (
+        <FaUserAlt className='w-6 h-6 text-white' />
+      )}
     </section>
   )
 }

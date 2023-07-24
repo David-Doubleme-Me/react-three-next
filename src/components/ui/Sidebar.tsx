@@ -6,6 +6,7 @@ import { BsBox } from 'react-icons/bs'
 import { GiBearFace } from 'react-icons/gi'
 import { TbResize } from 'react-icons/tb'
 import { SiLevelsdotfyi } from 'react-icons/si'
+import { BiMoviePlay } from 'react-icons/bi'
 
 const LINK = [
   {
@@ -37,6 +38,11 @@ const LINK = [
     name: 'LOD',
     pathname: '/lod',
     icon: SiLevelsdotfyi,
+  },
+  {
+    name: 'Animation',
+    pathname: '/animation',
+    icon: BiMoviePlay,
   },
 ]
 
