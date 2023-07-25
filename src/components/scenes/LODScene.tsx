@@ -2,7 +2,6 @@
 
 import { OrbitControls, useGLTF, Detailed } from '@react-three/drei'
 import { Canvas, useThree } from '@react-three/fiber'
-import { Suspense } from 'react'
 import { Bone, Color, Group, Mesh, Object3D } from 'three'
 import { GLTF } from 'three-stdlib'
 

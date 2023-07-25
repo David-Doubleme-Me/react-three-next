@@ -6,7 +6,6 @@ import { Suspense, useEffect } from 'react'
 import { Color } from 'three'
 import { useControls } from 'leva'
 import ProgressLoading from '../loading/ProgressLoading'
-import FullLoading from '../loading/FullLoading'
 
 const Robot = () => {
   const { scene, animations } = useGLTF('/model/robot/gun-bot.glb')
