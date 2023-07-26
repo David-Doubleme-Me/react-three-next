@@ -40,7 +40,7 @@ export default function Page() {
           </li>
         ))}
       </ul> */}
-      {/* <ImageCard /> */}
+      <ImageCard />
       <SpriteImageCard />
     </section>
   )

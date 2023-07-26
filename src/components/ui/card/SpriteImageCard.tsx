@@ -1,36 +1,17 @@
 import Image from 'next/image'
 import Avatar from '../user/Avatar'
 import { useState } from 'react'
+import SpriteImage from '@/components/frame/SpriteImage'
 
 type Props = {
   image?: string
 }
 
 export default function SpriteImageCard() {
-  const [xPos, setXPos] = useState(0)
-
-  const handleMouseMove = (event: React.MouseEvent) => {
-    const eventTarget = event.target as HTMLDivElement
-    const { left, top, width, height } = eventTarget.getBoundingClientRect()
-    const mouseX = event.clientX - left
-    const mouseY = event.clientY - top
-
-    const x = (mouseX / width) * 100
-    // console.log(x)
-    setXPos(x)
-
-    eventTarget.style.backgroundPosition = `${x}% 0`
-
-    //6.67%
-  }
-
   return (
     <section className='flex flex-col max-w-sm gap-2 min-w-xs'>
-      <div className='relative' onMouseMove={handleMouseMove}>
-        <div
-          className={`absolute top-0 left-0 bg-[url('/image/sprite/1.jpeg')] bg-no-repeat w-[344px] h-[192px] bg-cover`}
-        />
-      </div>
+      <SpriteImage imageUrl={'/image/sprite/2.jpeg'} frame={15} widthOfImage={344} heightOfImage={192} />
+
       <div className='flex w-full gap-2'>
         <Avatar />
         <div className='flex flex-col max-w-xs'>
