@@ -1,10 +1,11 @@
 'use client'
 
 import { OrbitControls, useGLTF, Bounds } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
-import { BoxHelper, Color } from 'three'
+import { Canvas, useThree } from '@react-three/fiber'
+import THREE, { BoxHelper, Color, REVISION } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { LoadingManager } from 'three/src/loaders/LoadingManager'
+import { KTX2Loader } from 'three/examples/jsm/loaders/KTX2Loader' // KTX2Loader import
 
 const manager = new LoadingManager()
 manager.onStart = function (url, itemsLoaded, itemsTotal) {
@@ -23,14 +24,19 @@ manager.onError = function (url) {
   console.log('There was an error loading ' + url)
 }
 
-const myLoader = (loader: GLTFLoader) => {
-  console.log(loader)
-  loader.manager = manager
-}
-
 function Tyrannosaurs() {
+  const { gl } = useThree()
+
+  const myLoader = (loader: GLTFLoader) => {
+    console.log(REVISION)
+    loader.manager = manager
+    const THREE_PATH = `https://unpkg.com/three@0.${REVISION}.x`
+    const ktx2Loader = new KTX2Loader(manager).setTranscoderPath(`${THREE_PATH}/examples/jsm/libs/basis/`)
+    loader.setKTX2Loader(ktx2Loader.detectSupport(gl))
+  }
+
   const { scene } = useGLTF('/model/tyrannosaurs/scene.gltf', false, false, myLoader)
-  const result = useGLTF('/model/test/1.glb', false, false, myLoader)
+  const result = useGLTF('/ktx.glb', true, false, myLoader)
   const box = new BoxHelper(scene, 0x00000000)
   const box2 = new BoxHelper(result.scene, new Color('skyblue'))
 
