@@ -1,6 +1,7 @@
 'use client'
 
 import ImageCard from '@/components/ui/card/ImageCard'
+import SpriteImageCard from '@/components/ui/card/SpriteImageCard'
 import Link from 'next/link'
 
 // import dynamic from 'next/dynamic'
@@ -32,13 +33,15 @@ export default function Page() {
     <section className='w-full'>
       <div className='text-white'>태그나오는 영역</div>
       {/* 리스트 나오는 영역 */}
-      <ul className='grid grid-cols-4 lg:gird-cols-5'>
+      {/* <ul className='grid grid-cols-4 lg:gird-cols-5'>
         {ImageCardArray.map((index) => (
           <li key={index}>
             <ImageCard />
           </li>
         ))}
-      </ul>
+      </ul> */}
+      <ImageCard />
+      <SpriteImageCard />
     </section>
   )
 }

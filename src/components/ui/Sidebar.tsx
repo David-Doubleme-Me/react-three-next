@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import IconTextButton from './buttons/IconTextButton'
-import { RiHome5Fill } from 'react-icons/ri'
+import { RiHome5Fill, RiScreenshot2Fill } from 'react-icons/ri'
 import { AiTwotoneVideoCamera } from 'react-icons/ai'
 import { BsBox } from 'react-icons/bs'
 import { GiBearFace } from 'react-icons/gi'
@@ -48,6 +48,11 @@ const LINK = [
     name: 'Loading',
     pathname: '/loading',
     icon: BiLoaderCircle,
+  },
+  {
+    name: 'Screenshot',
+    pathname: '/screenshot',
+    icon: RiScreenshot2Fill,
   },
 ]
 

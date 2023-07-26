@@ -2,7 +2,6 @@
 
 import { OrbitControls, useGLTF, Bounds } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import { Suspense } from 'react'
 import { BoxHelper, Color } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { LoadingManager } from 'three/src/loaders/LoadingManager'

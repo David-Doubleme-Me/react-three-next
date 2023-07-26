@@ -23,3 +23,11 @@ body {
   width: 100vw !important;
   height: 100vh !important;
 }
+
+
+ .custom-div {
+    /* width: 640px; */ 
+    /* height: 350px; */ 
+    /* background-size: 1500% auto;  이미지 스프라이트 전체 너비의 15배로 설정 */
+    /* transition: background-position 0.2s ease-out; 부드러운 애니메이션을 위한 트랜지션 설정 */
+  }
