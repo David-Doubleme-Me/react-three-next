@@ -1,12 +1,12 @@
 'use client'
 
-import { OrbitControls, useGLTF, Stage, useAnimations, Preload, Html } from '@react-three/drei'
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { OrbitControls, useGLTF, Stage, useAnimations, Preload } from '@react-three/drei'
+import { Canvas, useThree } from '@react-three/fiber'
 import { Dispatch, SetStateAction, Suspense, useEffect, useRef, useState } from 'react'
 import { useControls, button } from 'leva'
 import ProgressLoading from '../loading/ProgressLoading'
-import { OrbitControls as ThreeOrbitControls } from 'three-stdlib'
-import html2canvas from 'html2canvas'
+import GIF from 'gif.js'
+import workerStr from '@/worker/gifWorker'
 
 function downloadScreenshot(dataURL: string, filename: string) {
   const link = document.createElement('a')
@@ -16,13 +16,12 @@ function downloadScreenshot(dataURL: string, filename: string) {
 }
 
 type Props = {
-  screenshots: string[]
   setScreenshots: Dispatch<SetStateAction<string[]>>
 }
 
-const Robot = ({ screenshots, setScreenshots }: Props) => {
+const Robot = ({ setScreenshots }: Props) => {
   const { scene, animations } = useGLTF('/model/robot/gun-bot.glb')
-  const { mixer, names, actions, clips } = useAnimations(animations, scene)
+  const { mixer, names, actions } = useAnimations(animations, scene)
   const { camera, scene: mainScene, gl } = useThree()
 
   scene.updateMatrixWorld()
@@ -53,17 +52,20 @@ const Robot = ({ screenshots, setScreenshots }: Props) => {
   }
 
   const captureGl = () => {
+    // 초기화
     setScreenshots([])
+
     const totalRotation = Math.PI * 2 // 360 degrees in radians
     let currentRotation = 0
-    const rotationIncrement = Math.PI / 4 // 45 degrees in radians
+    const rotationIncrement = Math.PI / 8 // 45/ 24? degrees in radians
+
     function animate() {
       if (currentRotation >= totalRotation) {
         // 모든 회전이 완료되면 애니메이션 중지
+
         return
       }
 
-      camera.position.set(0, 0, 5)
       camera.lookAt(scene.position)
 
       // 현재 회전 각도만큼 모델 회전
@@ -72,7 +74,7 @@ const Robot = ({ screenshots, setScreenshots }: Props) => {
       // 스크린샷 찍기
       takeScreenshot()
 
-      // 45도씩 회전
+      // 45?도씩 회전
       currentRotation += rotationIncrement
 
       // 프레임마다 애니메이션
@@ -178,30 +180,74 @@ export default function ScreenshotScene() {
     const context = canvas.getContext('2d') as CanvasRenderingContext2D
 
     // 가로로 긴 캔버스 크기 설정
-    canvas.width = images.reduce((totalWidth: number, image: any) => totalWidth + image.width, 0)
-    canvas.height = Math.max(...images.map((image: any) => image.height))
+    // canvas.width = images.reduce((totalWidth: number, image: any) => totalWidth + image.width, 0)
+    // canvas.height = Math.max(...images.map((image: any) => image.height))
+    // 9600 * 360
+
+    // 고정
+    canvas.width = 9600
+    canvas.height = 360
+
+    const imageWidth = 640
+    const imageHeight = 360
 
     let offsetX = 0
     images.forEach((image: any) => {
-      context.drawImage(image, offsetX, 0, image.width, image.height)
-      offsetX += image.width
+      context.drawImage(image, offsetX, 0, imageWidth, imageHeight)
+      offsetX += imageWidth
     })
 
-    // 합쳐진 이미지를 데이터 URL로 변환
+    // 합쳐진 이미지를 데이터 URL로 변환 -> webp 변환 필요
     const combinedDataURL = canvas.toDataURL('image/png')
 
     // 합쳐진 이미지 사용 (이미지를 표시하거나 다운로드 등)
-    console.log(combinedDataURL)
     downloadScreenshot(combinedDataURL, 'combine-image')
   }
 
+  function createGifImage(images: any) {
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d') as CanvasRenderingContext2D
+    const imageWidth = 640
+    const imageHeight = 360
+    canvas.width = imageWidth
+    canvas.height = imageHeight
+
+    const workerBlob = new Blob([workerStr], {
+      type: 'application/javascript',
+    })
+
+    const encoder = new GIF({
+      workers: 2,
+      quality: 10,
+      width: imageWidth,
+      height: imageHeight,
+      workerScript: URL.createObjectURL(workerBlob),
+    })
+
+    images.forEach((image: any) => {
+      context.drawImage(image, 0, 0, imageWidth, imageHeight)
+      encoder.addFrame(context, { copy: true, delay: 500 })
+    })
+
+    encoder.on('finished', function (blob) {
+      const dataUrl = URL.createObjectURL(blob)
+      downloadScreenshot(dataUrl, 'combine-image')
+    })
+
+    encoder.render()
+  }
+
   // 여러 이미지들을 로드하는 함수
-  async function loadImages() {
+  async function loadImages(type: 'image' | 'gif') {
     const promises = screenshots.map((url) => loadImage(url))
     try {
       const images = await Promise.all(promises)
-      // 이미지들이 모두 로드된 후에 합치는 작업 수행
-      combineImages(images)
+
+      if (type === 'image') {
+        combineImages(images)
+      } else if (type === 'gif') {
+        createGifImage(images)
+      }
     } catch (error) {
       console.error('이미지 로드 중 에러 발생:', error)
     }
@@ -215,7 +261,7 @@ export default function ScreenshotScene() {
 
         <Suspense fallback={<ProgressLoading />}>
           <Stage intensity={0.5} shadows='contact' environment='city'>
-            <Robot screenshots={screenshots} setScreenshots={setScreenshots} />
+            <Robot setScreenshots={setScreenshots} />
           </Stage>
         </Suspense>
 
@@ -224,12 +270,12 @@ export default function ScreenshotScene() {
       </Canvas>
       {screenshots.length > 0 && (
         <div>
-          <div className='absolute top-0 left-0 flex myImages'>
-            {/* 여기에서 스크린샷 이미지를 원하는 방식으로 표시하거나 다운로드 버튼을 만들 수 있습니다 */}
+          <div className='absolute top-0 left-0 flex flex-wrap'>
             {screenshots.map((url, index) => (
               <img key={index} src={url} alt={`스크린샷 ${index + 1}`} width={150} height={100} />
             ))}
-            <button onClick={loadImages}>이미지 합치기</button>
+            <button onClick={() => loadImages('image')}>이미지 합치기</button>
+            <button onClick={() => loadImages('gif')}>gif 만들기</button>
           </div>
         </div>
       )}
