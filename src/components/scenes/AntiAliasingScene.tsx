@@ -1,53 +1,37 @@
 'use client'
 
-import { OrbitControls, useGLTF, Detailed } from '@react-three/drei'
+import { OrbitControls, useGLTF, Detailed, Stage } from '@react-three/drei'
 import { Canvas, useThree } from '@react-three/fiber'
-import { Bone, Color, Group, Mesh, Object3D } from 'three'
+import { Suspense, useState } from 'react'
+import { Color, Event } from 'three'
 import { GLTF } from 'three-stdlib'
+import ProgressLoading from '../loading/ProgressLoading'
 
 type ModelProps = {
   url: string
 }
 
-type Nodes = {
-  [key: string]: Object3D | Bone | Group | Mesh
-}
-
 const Model = ({ url }: ModelProps) => {
-  const { scene } = useGLTF(url) as GLTF & { nodes: any }
+  const { scene } = useGLTF(url) as GLTF
+  const { gl } = useThree()
+
   scene.updateMatrixWorld()
 
   scene.userData = { url }
   return <primitive object={scene} />
 }
 
-const DetailedModel = (props: any) => {
-  const [lowModel, highModel] = useGLTF(['/model/dragon/cute_dragon_low.glb', '/model/dragon/cute_dragon_high.glb'])
-  lowModel.scene.updateMatrixWorld()
-  highModel.scene.updateMatrixWorld()
-
-  const { gl } = useThree()
-  const canvas = gl.domElement
-  canvas.addEventListener('webglcontextlost', function (event) {
-    event.preventDefault()
-    console.log('webglcontextlost!')
-  })
-
+export default function AntiAliasingScene() {
   return (
-    <Detailed distances={[0, 10]} {...props}>
-      <primitive object={lowModel.scene} />
-      <primitive object={highModel.scene} />
-    </Detailed>
-  )
-}
-
-export default function LODScene() {
-  return (
-    <Canvas>
+    <Canvas gl={{ antialias: false }}>
       <color attach='background' args={[196, 196, 196]} />
       <ambientLight />
 
-      <DetailedModel position={[5, 0, 0]} />
+      <Suspense fallback={<ProgressLoading />}>
+        <Stage intensity={0.5} shadows='contact' environment='city'>
+          <Model url={'/model/robot/dji.glb'} />
+        </Stage>
+      </Suspense>
 
       <axesHelper
         scale={2}
