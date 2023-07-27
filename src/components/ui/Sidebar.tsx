@@ -7,6 +7,7 @@ import { GiBearFace } from 'react-icons/gi'
 import { TbResize } from 'react-icons/tb'
 import { SiLevelsdotfyi } from 'react-icons/si'
 import { BiMoviePlay, BiLoaderCircle } from 'react-icons/bi'
+import { RxShadowInner } from 'react-icons/rx'
 
 const LINK = [
   {
@@ -53,6 +54,11 @@ const LINK = [
     name: 'Screenshot',
     pathname: '/screenshot',
     icon: RiScreenshot2Fill,
+  },
+  {
+    name: 'AntiAliasing',
+    pathname: '/antialiasing',
+    icon: RxShadowInner,
   },
 ]
 

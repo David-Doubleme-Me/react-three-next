@@ -26,24 +26,6 @@ const Robot = ({ setScreenshots }: Props) => {
 
   scene.updateMatrixWorld()
 
-  const capture = () => {
-    const captureCanvas = document.createElement('canvas')
-    captureCanvas.width = gl.domElement.width
-    captureCanvas.height = gl.domElement.height
-    const captureContext = captureCanvas.getContext('2d') as CanvasRenderingContext2D
-
-    // Set the canvas size to match the WebGLRenderer size
-    captureCanvas.width = gl.domElement.width
-    captureCanvas.height = gl.domElement.height
-
-    // Render the scene on the capture canvas
-    captureContext.drawImage(gl.domElement, 0, 0)
-
-    // Get the screenshot as a data URL
-    const screenshot = captureCanvas.toDataURL('image/png')
-    downloadScreenshot(screenshot, 'test')
-  }
-
   const takeScreenshot = () => {
     gl.domElement.toBlob((blob) => {
       const result = URL.createObjectURL(blob as Blob)
@@ -52,17 +34,15 @@ const Robot = ({ setScreenshots }: Props) => {
   }
 
   const captureGl = () => {
-    // 초기화
     setScreenshots([])
 
-    const totalRotation = Math.PI * 2 // 360 degrees in radians
     let currentRotation = 0
+    const totalRotation = Math.PI * 2 // 360 degrees in radians
     const rotationIncrement = Math.PI / 8 // 45/ 24? degrees in radians
 
     function animate() {
       if (currentRotation >= totalRotation) {
         // 모든 회전이 완료되면 애니메이션 중지
-
         return
       }
 
@@ -274,8 +254,14 @@ export default function ScreenshotScene() {
             {screenshots.map((url, index) => (
               <img key={index} src={url} alt={`스크린샷 ${index + 1}`} width={150} height={100} />
             ))}
-            <button onClick={() => loadImages('image')}>이미지 합치기</button>
-            <button onClick={() => loadImages('gif')}>gif 만들기</button>
+            <div className='flex flex-col items-center justify-center gap-4'>
+              <button className='p-4 bg-gray-200 ' onClick={() => loadImages('image')}>
+                이미지 합치기
+              </button>
+              <button className='p-4 bg-gray-200' onClick={() => loadImages('gif')}>
+                gif 만들기
+              </button>
+            </div>
           </div>
         </div>
       )}
