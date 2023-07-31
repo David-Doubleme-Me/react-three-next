@@ -3,11 +3,12 @@ import IconTextButton from './buttons/IconTextButton'
 import { RiHome5Fill, RiScreenshot2Fill } from 'react-icons/ri'
 import { AiTwotoneVideoCamera } from 'react-icons/ai'
 import { BsBox } from 'react-icons/bs'
-import { GiBearFace } from 'react-icons/gi'
+import { GiBearFace, GiBrickWall } from 'react-icons/gi'
 import { TbResize } from 'react-icons/tb'
 import { SiLevelsdotfyi } from 'react-icons/si'
 import { BiMoviePlay, BiLoaderCircle } from 'react-icons/bi'
 import { RxShadowInner } from 'react-icons/rx'
+import { HiOutlineAnnotation } from 'react-icons/hi'
 
 const LINK = [
   {
@@ -59,6 +60,16 @@ const LINK = [
     name: 'AntiAliasing',
     pathname: '/antialiasing',
     icon: RxShadowInner,
+  },
+  {
+    name: 'Annotation',
+    pathname: '/annotation',
+    icon: HiOutlineAnnotation,
+  },
+  {
+    name: 'Annotation occlude',
+    pathname: '/occlude',
+    icon: GiBrickWall,
   },
 ]
 
