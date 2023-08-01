@@ -38,7 +38,8 @@ const Robot = ({ setScreenshots }: Props) => {
 
     let currentRotation = 0
     const totalRotation = Math.PI * 2 // 360 degrees in radians
-    const rotationIncrement = Math.PI / 8 // 45/ 24? degrees in radians
+    // const rotationIncrement = Math.PI / 8 // 22.5 degrees in radians 16장
+    const rotationIncrement = Math.PI / 18.182 // 100 degrees in radians 36장
 
     function animate() {
       if (currentRotation >= totalRotation) {
@@ -206,7 +207,7 @@ export default function ScreenshotScene() {
 
     images.forEach((image: any) => {
       context.drawImage(image, 0, 0, imageWidth, imageHeight)
-      encoder.addFrame(context, { copy: true, delay: 500 })
+      encoder.addFrame(context, { copy: true, delay: 1000 })
     })
 
     encoder.on('finished', function (blob) {
