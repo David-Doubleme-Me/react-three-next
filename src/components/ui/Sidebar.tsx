@@ -4,7 +4,7 @@ import { RiHome5Fill, RiScreenshot2Fill } from 'react-icons/ri'
 import { AiTwotoneVideoCamera } from 'react-icons/ai'
 import { BsBox } from 'react-icons/bs'
 import { GiBearFace, GiBrickWall } from 'react-icons/gi'
-import { TbResize } from 'react-icons/tb'
+import { TbResize, TbGizmo } from 'react-icons/tb'
 import { SiLevelsdotfyi } from 'react-icons/si'
 import { BiMoviePlay, BiLoaderCircle } from 'react-icons/bi'
 import { RxShadowInner } from 'react-icons/rx'
@@ -70,6 +70,11 @@ const LINK = [
     name: 'Annotation occlude',
     pathname: '/occlude',
     icon: GiBrickWall,
+  },
+  {
+    name: 'Gizmos',
+    pathname: '/gizmos',
+    icon: TbGizmo,
   },
 ]
 
