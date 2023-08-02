@@ -1,11 +1,13 @@
 'use client'
 
-import { OrbitControls, useGLTF, Detailed, Stage } from '@react-three/drei'
+import { OrbitControls, useGLTF, Detailed, Stage, GizmoHelper, GizmoViewport } from '@react-three/drei'
 import { Canvas, useThree } from '@react-three/fiber'
 import { Suspense, useState } from 'react'
 import { Color, Event } from 'three'
 import { GLTF } from 'three-stdlib'
 import ProgressLoading from '../loading/ProgressLoading'
+import CommonViewport from '../helper/gizmo/CommonViewport'
+import CommonViewcube from '../helper/gizmo/CommonViewcube'
 
 type ModelProps = {
   url: string
@@ -13,17 +15,13 @@ type ModelProps = {
 
 const Model = ({ url }: ModelProps) => {
   const { scene } = useGLTF(url) as GLTF
-  const { gl } = useThree()
-
   scene.updateMatrixWorld()
-
-  scene.userData = { url }
   return <primitive object={scene} />
 }
 
 export default function GizmoScene() {
   return (
-    <Canvas gl={{ antialias: false }}>
+    <Canvas>
       <color attach='background' args={[196, 196, 196]} />
       <ambientLight />
 
@@ -39,7 +37,10 @@ export default function GizmoScene() {
         onUpdate={(self) => self.setColors(new Color('red'), new Color('green'), new Color('blue'))}
       />
 
-      <OrbitControls />
+      <CommonViewport />
+      {/* <CommonViewcube /> */}
+
+      <OrbitControls makeDefault />
     </Canvas>
   )
 }
