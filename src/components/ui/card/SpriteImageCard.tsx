@@ -1,6 +1,4 @@
-import Image from 'next/image'
 import Avatar from '../user/Avatar'
-import { useState } from 'react'
 import SpriteImage from '@/components/frame/SpriteImage'
 
 type Props = {
@@ -10,7 +8,7 @@ type Props = {
 export default function SpriteImageCard() {
   return (
     <section className='flex flex-col max-w-sm gap-2 min-w-xs'>
-      <SpriteImage imageUrl={'/image/sprite/2.jpeg'} frame={15} widthOfImage={344} heightOfImage={192} />
+      <SpriteImage imageUrl={'/image/sprite/2.jpeg'} frame={15} widthOfImage={640} heightOfImage={360} />
 
       <div className='flex w-full gap-2'>
         <Avatar />
