@@ -9,7 +9,6 @@ import { useControls } from 'leva'
 const Robot = () => {
   const { scene, animations } = useGLTF('/model/4.glb')
   const { mixer, names, actions, clips } = useAnimations(animations, scene)
-  console.log(mixer)
   const [index, setIndex] = useState(0)
   scene.updateMatrixWorld()
 
@@ -25,7 +24,6 @@ const Robot = () => {
     } else {
       setIndex(0)
     }
-    console.log(index)
   })
 
   mixer.timeScale = speed
