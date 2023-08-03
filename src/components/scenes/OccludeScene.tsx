@@ -43,8 +43,6 @@ const Model = ({ children, url, annotationList, setAnnotationList }: ModelProps)
         cameraLookAt,
       }
 
-      console.log(poi)
-
       setAnnotationList((prev) => [...prev, poi])
     }
   }

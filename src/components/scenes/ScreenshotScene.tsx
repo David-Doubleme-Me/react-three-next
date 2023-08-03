@@ -27,8 +27,6 @@ const Robot = ({ setScreenshots }: Props) => {
 
   scene.updateMatrixWorld()
 
-  console.log(scene)
-
   const takeScreenshot = () => {
     gl.domElement.toBlob((blob) => {
       const result = URL.createObjectURL(blob as Blob)
