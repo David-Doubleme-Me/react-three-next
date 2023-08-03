@@ -7,6 +7,7 @@ import { useControls, button } from 'leva'
 import ProgressLoading from '../loading/ProgressLoading'
 import GIF from 'gif.js'
 import workerStr from '@/worker/gifWorker'
+import { MathUtils } from 'three'
 
 function downloadScreenshot(dataURL: string, filename: string) {
   const link = document.createElement('a')
@@ -26,6 +27,8 @@ const Robot = ({ setScreenshots }: Props) => {
 
   scene.updateMatrixWorld()
 
+  console.log(scene)
+
   const takeScreenshot = () => {
     gl.domElement.toBlob((blob) => {
       const result = URL.createObjectURL(blob as Blob)
@@ -38,8 +41,8 @@ const Robot = ({ setScreenshots }: Props) => {
 
     let currentRotation = 0
     const totalRotation = Math.PI * 2 // 360 degrees in radians
-    // const rotationIncrement = Math.PI / 8 // 22.5 degrees in radians 16장
-    const rotationIncrement = Math.PI / 18.182 // 100 degrees in radians 36장
+    const incrementDegree = 24 // 증가할 각도
+    const rotationIncrement = MathUtils.degToRad(incrementDegree) // 각도 (degree) -> Euler(radian) 으로 변경
 
     function animate() {
       if (currentRotation >= totalRotation) {
@@ -55,7 +58,7 @@ const Robot = ({ setScreenshots }: Props) => {
       // 스크린샷 찍기
       takeScreenshot()
 
-      // 45?도씩 회전
+      // 현재 회전한 라디안
       currentRotation += rotationIncrement
 
       // 프레임마다 애니메이션
@@ -92,59 +95,6 @@ const Robot = ({ setScreenshots }: Props) => {
 export default function ScreenshotScene() {
   const [screenshots, setScreenshots] = useState<string[]>([])
 
-  // 스크린샷 합치기
-  const combineScreenshots = () => {
-    // 빈 캔버스
-    const canvas = document.createElement('canvas')
-    const context = canvas.getContext('2d') as CanvasRenderingContext2D
-    const gl = document.getElementById('screenshotCanvas') as HTMLElement
-
-    console.log(screenshots)
-
-    // 가로로 긴 캔버스 크기 설정 (이미지 하나당 가로 크기와 세로 크기를 적절히 조정해주세요)
-    // const canvasWidth = screenshots.length * gl.clientWidth
-    // const canvasHeight = gl.clientHeight
-
-    // 원본 크기
-    canvas.width = gl.clientWidth
-    canvas.height = gl.clientHeight
-
-    // 스크린샷들을 가로로 합치기
-    let offset = 0
-    // screenshots.forEach((url) => {
-    //   const image = new Image()
-    //   image.src = url
-
-    //   // 이미지를 캔버스에 그리기
-    //   image.onload = () => {
-    //     context.drawImage(image, offset, 0, gl.clientWidth, gl.clientHeight)
-    //     offset += gl.clientWidth
-    //     console.log(offset)
-    //   }
-    // })
-
-    const image = new Image()
-    image.src = screenshots[0]
-    console.log(screenshots[0])
-
-    // 이미지를 캔버스에 그리기
-    image.onload = () => {
-      context.drawImage(image, 0, 0, image.width, image.width)
-      offset += gl.clientWidth
-      console.log('image onload')
-    }
-
-    console.log('엥 로드가 안됐는데 ')
-
-    // 합쳐진 이미지를 데이터 URL로 변환
-    const combinedDataURL = canvas.toDataURL('image/png')
-
-    // 합쳐진 이미지 사용 (이미지를 표시하거나 다운로드 등)
-    downloadScreenshot(combinedDataURL, 'combinedDataUrl')
-  }
-
-  // ---
-
   // 이미지 로드를 Promise로 감싸는 함수
   function loadImage(url: string) {
     return new Promise((resolve, reject) => {
@@ -160,17 +110,13 @@ export default function ScreenshotScene() {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d') as CanvasRenderingContext2D
 
-    // 가로로 긴 캔버스 크기 설정
-    // canvas.width = images.reduce((totalWidth: number, image: any) => totalWidth + image.width, 0)
-    // canvas.height = Math.max(...images.map((image: any) => image.height))
-    // 9600 * 360
+    // 프레임 이미지 크기
+    const imageWidth = 200
+    const imageHeight = 200
 
-    // 고정
-    canvas.width = 9600
-    canvas.height = 360
-
-    const imageWidth = 640
-    const imageHeight = 360
+    // 전체 스프라이트 이미지 크기
+    canvas.width = imageWidth * images.length
+    canvas.height = imageHeight
 
     let offsetX = 0
     images.forEach((image: any) => {

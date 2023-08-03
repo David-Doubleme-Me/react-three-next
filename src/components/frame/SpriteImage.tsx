@@ -11,9 +11,11 @@ export default function SpriteImage({ imageUrl, frame, widthOfImage, heightOfIma
    * ex) 100% / 15장 = 6.66%
    */
   const frameRatio = 100 / frame
-  const backgroundRatio = frame * 100
   const backgroundImageStyle = {
+    width: widthOfImage,
+    height: heightOfImage,
     backgroundImage: `url(${imageUrl})`,
+    backgroundSize: 'cover',
   }
 
   const handleMouseMove = (event: React.MouseEvent) => {
@@ -32,12 +34,5 @@ export default function SpriteImage({ imageUrl, frame, widthOfImage, heightOfIma
     eventTarget.style.backgroundPosition = `0px 0`
   }
 
-  return (
-    <div
-      style={backgroundImageStyle}
-      className={`w-[${widthOfImage}px] h-[${heightOfImage}px] bg-[length:${backgroundRatio}%_auto]`}
-      onMouseMove={handleMouseMove}
-      onMouseOut={handleMouseOut}
-    />
-  )
+  return <div style={backgroundImageStyle} onMouseMove={handleMouseMove} onMouseOut={handleMouseOut} />
 }

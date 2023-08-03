@@ -1,5 +1,6 @@
 'use client'
 
+import SpriteImage from '@/components/frame/SpriteImage'
 import ImageCard from '@/components/ui/card/ImageCard'
 import SpriteImageCard from '@/components/ui/card/SpriteImageCard'
 import Link from 'next/link'
@@ -32,16 +33,14 @@ export default function Page() {
   return (
     <section className='w-full'>
       <div className='text-white'>태그나오는 영역</div>
-      {/* 리스트 나오는 영역 */}
-      {/* <ul className='grid grid-cols-4 lg:gird-cols-5'>
-        {ImageCardArray.map((index) => (
-          <li key={index}>
-            <ImageCard />
-          </li>
-        ))}
-      </ul> */}
-      <ImageCard />
-      <SpriteImageCard />
+      {/* <SpriteImage imageUrl={'/image/sprite/2.jpeg'} frame={15} widthOfImage={344} heightOfImage={192} /> */}
+      <SpriteImage imageUrl={'/image/sprite/1.jpeg'} frame={15} widthOfImage={100} heightOfImage={56} />
+      <SpriteImage imageUrl={'/image/sprite/1.jpeg'} frame={15} widthOfImage={200} heightOfImage={112} />
+      <SpriteImage imageUrl={'/image/sprite/1.jpeg'} frame={15} widthOfImage={300} heightOfImage={168} />
+      <SpriteImage imageUrl={'/image/sprite/2.jpeg'} frame={15} widthOfImage={400} heightOfImage={168} />
+      <SpriteImage imageUrl={'/image/sprite/2.jpeg'} frame={15} widthOfImage={200} heightOfImage={300} />
+      {/* <ImageCard /> */}
+      {/* <SpriteImageCard /> */}
     </section>
   )
 }
