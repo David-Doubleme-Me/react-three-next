@@ -14,9 +14,9 @@ export type NumberAnnotation = Annotation & {
 
 type Props = {
   annotation: NumberAnnotation
-  clickedId: number
+  clickedId?: number
   onClick?: () => void
-  edit: boolean
+  edit?: boolean
 }
 
 export default function NumberAnnotation({ annotation, onClick, edit }: Props) {
