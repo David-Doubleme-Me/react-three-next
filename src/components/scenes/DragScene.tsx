@@ -25,7 +25,6 @@ const Model = ({ url, isAnnotationMove, setPointerOver, setPointerPosition }: Mo
 
     // 포지션 업데이트
     const { intersections } = event
-    console.log(event)
     const position = intersections[0].point
     setPointerPosition(position)
   }
@@ -61,14 +60,6 @@ export default function DragScene() {
     setIsDragging(false)
   }
 
-  // const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-  //   event.preventDefault()
-  //   console.log('handlePointerMove')
-  //   console.log(event)
-  // }
-
-  useEffect(() => {}, [])
-
   return (
     <Canvas onPointerUp={handlePointerUp}>
       <color attach='background' args={[50, 50, 50]} />
@@ -85,12 +76,14 @@ export default function DragScene() {
 
       <group>
         <Html as='div' position={[position.x, position.y, position.z]}>
-          <div
-            className={`${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-            onPointerDown={handlePointerDown}
-            onPointerUp={handlePointerUp}
-          >
-            <div className={numberClasses}>{10}</div>
+          <div className='relative'>
+            <div
+              className={`mypoi ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} absolute -top-4 -left-4`}
+              onPointerDown={handlePointerDown}
+              onPointerUp={handlePointerUp}
+            >
+              <div className={numberClasses}>{10}</div>
+            </div>
           </div>
         </Html>
       </group>

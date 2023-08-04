@@ -81,6 +81,11 @@ const LINK = [
     pathname: '/drag',
     icon: TbDragDrop,
   },
+  {
+    name: 'Drag in model',
+    pathname: '/drag2',
+    icon: TbDragDrop,
+  },
 ]
 
 export default function Sidebar() {
