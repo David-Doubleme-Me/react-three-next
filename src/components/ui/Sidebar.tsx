@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import IconTextButton from './buttons/IconTextButton'
 import { RiHome5Fill, RiScreenshot2Fill } from 'react-icons/ri'
-import { AiTwotoneVideoCamera } from 'react-icons/ai'
+import { AiTwotoneVideoCamera, AiFillRobot } from 'react-icons/ai'
 import { BsBox } from 'react-icons/bs'
 import { GiBearFace, GiBrickWall } from 'react-icons/gi'
 import { TbResize, TbGizmo, TbDragDrop } from 'react-icons/tb'
@@ -82,9 +82,9 @@ const LINK = [
     icon: TbDragDrop,
   },
   {
-    name: 'Drag in model',
-    pathname: '/drag2',
-    icon: TbDragDrop,
+    name: 'Model Viewer',
+    pathname: '/modelViewer',
+    icon: AiFillRobot,
   },
 ]
 
