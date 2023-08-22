@@ -101,7 +101,7 @@ export default function ScreenshotScene() {
     return new Promise((resolve, reject) => {
       const image = new Image()
       image.onload = () => resolve(image)
-      image.onerror = (error) => reject(error)
+      image.onerror = (error: any) => reject(error)
       image.src = url
     })
   }
