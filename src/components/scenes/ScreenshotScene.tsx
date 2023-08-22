@@ -8,6 +8,7 @@ import ProgressLoading from '../loading/ProgressLoading'
 import GIF from 'gif.js'
 import workerStr from '@/worker/gifWorker'
 import { MathUtils } from 'three'
+import Image from 'next/image'
 
 function downloadScreenshot(dataURL: string, filename: string) {
   const link = document.createElement('a')
@@ -199,7 +200,7 @@ export default function ScreenshotScene() {
         <div>
           <div className='absolute top-0 left-0 flex flex-wrap'>
             {screenshots.map((url, index) => (
-              <img key={index} src={url} alt={`스크린샷 ${index + 1}`} width={150} height={100} />
+              <Image key={index} src={url} alt={`스크린샷 ${index + 1}`} width={150} height={100} />
             ))}
             <div className='flex flex-col items-center justify-center gap-4'>
               <button className='p-4 bg-gray-200 ' onClick={() => loadImages('image')}>
